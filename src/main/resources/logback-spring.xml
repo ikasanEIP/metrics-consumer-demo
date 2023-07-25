@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- All log files located in logs file of the project -->
+    <property name="LOGS" value="./logs" />
+
+    <!-- Define the console log format -->
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="RollingFileBySize" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/application.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOGS}/application.log.%d.%i.gz</fileNamePattern>
+            <maxFileSize>20MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- LOG everything at info level -->
+    <root level="info">
+        <appender-ref ref="RollingFileBySize" />
+    </root>
+
+</configuration>
